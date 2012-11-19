@@ -15,6 +15,7 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "q": "~0.8.10"
+    "q": "~0.8",
+    "win-spawn": "0"
   }
 }
