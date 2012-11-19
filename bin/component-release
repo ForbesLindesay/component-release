@@ -143,13 +143,14 @@ function doUpdate() {
     process.exit(1);
   }
   var commands = [];
+  if (npm && npm.private != true) {
+    commands.push(['npm', ['publish']]);
+  }
   commands.push(['git', ['commit','-a', '-m', '"Release ' + version + '"']]);
   commands.push(['git', ['tag', version, '-a', '-m', '"v' + version + '"']]);
   commands.push(['git', ['push']]);
   commands.push(['git', ['push','--tags']]);
-  if (npm && npm.private != true) {
-    commands.push(['npm', ['publish']]);
-  }
+
   var prom = Q.resolve();
   commands.forEach(function (command) {
     prom = prom.then(function () {
