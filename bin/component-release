@@ -8,7 +8,7 @@ var version = process.argv[2];
 if (/^\d+\.\d+\.\d+$/.test(version)) {
   var commands = [];
   commands.push(['git', ['commit','-a', '-m', '"Release ' + version + '"']]);
-  commands.push(['git', ['tag', version, '-a', '-m', '"v' + version + '"');
+  commands.push(['git', ['tag', version, '-a', '-m', '"v' + version + '"']]);
   commands.push(['git', ['push']]);
   commands.push(['git', ['push','--tags']]);
   var prom = Q.resolve();
