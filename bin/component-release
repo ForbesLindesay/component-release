@@ -146,8 +146,8 @@ function doUpdate() {
   if (npm && npm.private != true) {
     commands.push(['npm', ['publish']]);
   }
-  commands.push(['git', ['commit','-a', '-m', '"Release ' + version + '"']]);
-  commands.push(['git', ['tag', version, '-a', '-m', '"v' + version + '"']]);
+  commands.push(['git', ['commit','-a', '-m', 'Release ' + version]]);
+  commands.push(['git', ['tag', version, '-a', '-m', 'v' + version]]);
   commands.push(['git', ['push']]);
   commands.push(['git', ['push','--tags']]);
 
