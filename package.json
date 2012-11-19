@@ -1,6 +1,6 @@
 {
   "name": "component-release",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Node.js based git-release for use with component",
   "bin": {
     "component-release": "./bin/component-release"

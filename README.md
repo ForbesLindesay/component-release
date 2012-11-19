@@ -23,7 +23,7 @@
   Provided you meet the requirements it will:
 
   - `git commit -a -m "Release 0.0.0"`
-  - `git tag 0.0.0 -a -m "v0.0.0"`
+  - `git tag 0.0.0 -a -m "0.0.0"`
   - `git push`
   - `git push --tags`
   - if a package.json is present and not marked private: `npm publish`
