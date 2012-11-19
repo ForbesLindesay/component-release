@@ -50,6 +50,36 @@ var com = readJSON('./component.json');
 var npm = readJSON('./package.json');
 
 if (/^\d+\.\d+\.\d+$/.test(version)) {
+  require('child_process').exec('git tag', function (err, res) {
+    var max = '0.0.0';
+    var hasVersion = false;
+    res.toString()
+      .split('\n')
+      .forEach(function (v) {
+        v = v.trim();
+        if (/^\d+\.\d+\.\d+$/.test(v)) {
+          hasVersion = true;
+          if (greaterThan(v, max)) {
+            max = v;
+          }
+        }
+      });
+    if (hasVersion && (greaterThan(max, version) || max == version)) {
+      console.error('Can\'t create version ' + version + ' because version ' + max + ' already exists.');
+      process.exit(1);
+    } else {
+      newVersion();
+    }
+  });
+} else if (version) {
+  console.error(version + ' does not match the expression `/^\\d+\\.\\d+\\.\\d+$/`');
+  process.exit(1);
+} else {
+  console.error('You must provide a version number');
+  process.exit(1);
+}
+
+function newVersion() {
   if (com && com.version != version) {
     if (npm && npm.version == version && greaterThan(npm.version, com.version)) {
       editJSON('./component.json').set(['version'], version).save();
@@ -101,14 +131,7 @@ if (/^\d+\.\d+\.\d+$/.test(version)) {
   } else {
     process.exit(1);
   }
-} else if (version) {
-  console.error(version + ' does not match the expression `/^\\d+\\.\\d+\\.\\d+$/`');
-  process.exit(1);
-} else {
-  console.error('You must provide a version number');
-  process.exit(1);
 }
-
 function doUpdate() {
   if (com && com.version != version) {
     console.error('component.json must have the correct version');
@@ -124,6 +147,9 @@ function doUpdate() {
   commands.push(['git', ['tag', version, '-a', '-m', '"v' + version + '"']]);
   commands.push(['git', ['push']]);
   commands.push(['git', ['push','--tags']]);
+  if (npm && npm.private != true) {
+    commands.push(['npm', ['publish']]);
+  }
   var prom = Q.resolve();
   commands.forEach(function (command) {
     prom = prom.then(function () {
@@ -133,7 +159,7 @@ function doUpdate() {
   });
   prom
     .then(function () {
-      console.log('complete');
+      console.log('\n\nPublish complete');
     })
     .done();
 }
