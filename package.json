@@ -1,6 +1,6 @@
 {
   "name": "component-release",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Node.js based git-release for use with component",
   "bin": {
     "component-release": "./bin/component-release"
@@ -16,6 +16,7 @@
   "license": "BSD",
   "dependencies": {
     "q": "~0.8",
-    "win-spawn": "0"
+    "win-spawn": "0",
+    "jsup": "0.0.1"
   }
 }
