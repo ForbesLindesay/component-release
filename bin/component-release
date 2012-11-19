@@ -8,17 +8,17 @@ var exists = fs.existsSync;
 
 function readJSON(name) {
   if (!exists(name)) return null;
-  else return JSON.parse(fs.readFileSync(name).toString());
+  else return JSON.parse(fs.readFileSync(name).toString().trim());
 }
 function editJSON(name, prop, value) {
   try {
-    var dat = jsup(fs.readFileSync(name).toString());
+    var dat = jsup(fs.readFileSync(name).toString().trim());
     dat.set([prop], value);
     fs.writeFileSync(name, dat.stringify());
   } catch (ex) {
     var json = readJSON(name);
     json[prop] = value;
-    fs.writeFileSync(name, JSON.stringify(dat));
+    fs.writeFileSync(name, JSON.stringify(json, null, '  '));
   }
 }
 
