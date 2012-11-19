@@ -7,15 +7,15 @@ var version = process.argv[2];
 
 if (/^\d+\.\d+\.\d+$/.test(version)) {
   var commands = [];
-  commands.push('git commit -a -m "Release ' + version + '"');
+  commands.push(['git', ['commit','-a', '-m', '"Release ' + version + '"']]);
   commands.push('git tag ' + version + ' -a -m "v' + version + '"');
   commands.push('git push');
   commands.push('git push --tags');
   var prom = Q.resolve();
   commands.forEach(function (command) {
     prom = prom.then(function () {
-      console.log('exec: ' + command);
-      return exec(command, {stdio: 'inherit'});
+      console.log('exec: ' + command[0] + ' ' + command[1].join(' '));
+      return exec(command[0], command[1], {stdio: 'inherit'});
     });
   });
   prom
