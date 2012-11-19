@@ -4,11 +4,11 @@
 
 ## Installation
 
-  $ npm install component-release -g
+    $ npm install component-release -g
 
 ## Usage
 
-  $ component-release 0.0.0
+    $ component-release 0.0.0
 
 ## Features
 
