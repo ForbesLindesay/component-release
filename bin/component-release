@@ -10,18 +10,16 @@ function readJSON(name) {
   if (!exists(name)) return null;
   else return JSON.parse(fs.readFileSync(name).toString());
 }
-function editJSON(name) {
-  var dat = jsup(fs.readFileSync(name).toString());
-  var exports = {};
-  exports.set = function (prop, val) {
-    dat.set(prop, val);
-    return exports;
-  };
-  exports.save = function () {
+function editJSON(name, prop, value) {
+  try {
+    var dat = jsup(fs.readFileSync(name).toString());
+    dat.set([prop], value);
     fs.writeFileSync(name, dat.stringify());
-    return exports;
-  };
-  return exports;
+  } catch (ex) {
+    var json = readJSON(name);
+    json[prop] = value;
+    fs.writeFileSync(name, JSON.stringify(dat));
+  }
 }
 
 var winSpawn = require('win-spawn');
@@ -82,13 +80,13 @@ if (/^\d+\.\d+\.\d+$/.test(version)) {
 function newVersion() {
   if (com && com.version != version) {
     if (npm && npm.version == version && greaterThan(npm.version, com.version)) {
-      editJSON('./component.json').set(['version'], version).save();
+      editJSON('./component.json', 'version', version);
       com.version = version;
     }
   }
   if (npm && npm.version != version) {
     if (com && com.version == version && greaterThan(com.version, npm.version)) {
-      editJSON('./package.json').set(['version'], version).save();
+      editJSON('./package.json', 'version', version);
       npm.version = version;
     }
   }
@@ -120,7 +118,7 @@ function newVersion() {
             console.error('Versions were out of date');
           } else {
             updating.forEach(function (name) {
-              editJSON('./' + name).set(['version'], version).save();
+              editJSON('./' + name, 'version', version);
             });
             if (npm) npm.version = version;
             if (com) com.version = version;
