@@ -1,7 +1,17 @@
 #!/usr/bin/env node
 
 var Q = require('q');
-var exec = Q.nbind(require('win-spawn'));
+
+var winSpawn = require('win-spawn');
+function spawn(cmd, args, options) {
+  var def = Q.defer();
+  var proc = winSpawn(cmd, args, options);
+  proc.on('exit', function (code) {
+    if (code !== 0) def.reject(new Error(cmd + ' exited with code ' + code));
+    else def.resolve(null);
+  });
+  return def.promise;
+}
 
 var version = process.argv[2];
 
@@ -15,7 +25,7 @@ if (/^\d+\.\d+\.\d+$/.test(version)) {
   commands.forEach(function (command) {
     prom = prom.then(function () {
       console.log('\n\nexec: ' + command[0] + ' ' + command[1].join(' ') + '\n\n');
-      return exec(command[0], command[1], {stdio: 'inherit'});
+      return spawn(command[0], command[1], {stdio: 'inherit'});
     });
   });
   prom
