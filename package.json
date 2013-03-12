@@ -6,6 +6,7 @@
     "component-release": "./bin/component-release"
   },
   "scripts": {
+    "prepublish": "win-line-endings",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
