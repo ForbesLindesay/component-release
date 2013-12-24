@@ -25,5 +25,5 @@
   - `git commit -a -m "Release 0.0.0"`
   - `git tag 0.0.0 -a -m "0.0.0"`
   - `git push`
-  - `git push --tags`
+  - `git push --follow-tags`
   - if a package.json is present and not marked private: `npm publish`
