@@ -154,8 +154,7 @@ function doUpdate() {
   }
   commands.push(['git', ['commit', '--allow-empty', '--all', '-m', 'Release ' + version]]);
   commands.push(['git', ['tag', version, '--annotate', '-m', version]]);
-  commands.push(['git', ['push']]);
-  commands.push(['git', ['push','--tags']]);
+  commands.push(['git', ['push','--follow-tags']]);
 
   var prom = Q.resolve();
   commands.forEach(function (command) {
