@@ -22,8 +22,7 @@
 
   Provided you meet the requirements it will:
 
+  - if a package.json is present and not marked private: `npm publish`
   - `git commit -a -m "Release 0.0.0"`
   - `git tag 0.0.0 -a -m "0.0.0"`
-  - `git push`
   - `git push --follow-tags`
-  - if a package.json is present and not marked private: `npm publish`
