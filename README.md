@@ -1,5 +1,7 @@
 # component-release
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ForbesLindesay/component-release.svg)](https://greenkeeper.io/)
+
   Node.js based git-release for use with component and npm
 
 ## Installation
